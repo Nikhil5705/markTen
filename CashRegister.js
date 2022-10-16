@@ -1,33 +1,37 @@
-const checkButton = document.querySelector("#check-Button");
-const billAmount  = document.querySelector("input#billamount");
-const cashReceived = document.querySelector("#cash-Received");
-const errorMessage = document.querySelector("#message");
-const notes = document.querySelectorAll(".notes-of-notes");
+var billAmount  = document.querySelector("#billamount");
+var cashReceived = document.querySelector("#cash-Received");
+var checkButton = document.querySelector("#check-Button");
+var errorMessage = document.querySelector("#message");
+var notes = document.querySelectorAll(".notes-of-notes");
 
-const availablenotes = [2000, 500, 200, 100, 50, 20, 10, 5, 2, 1];
+var availablenotes = [2000, 500, 200, 100, 50, 20, 10, 5, 1];
 
 checkButton.addEventListener("click", function CheckBill(){
     errorMessage.style.display = "none";
-    if(billAmount.value > 0){
-        if(cashReceived.value >= billAmount.value){
-           const amountToBeReturned = cashReceived.value - billAmount.value;
+
+    var bill = Number(billAmount.value);
+    var cash = Number(cashReceived.value);
+    if(bill > 0){
+        if(cash >= bill){
+           var amountToBeReturned = cash - bill;
            calculateDifference(amountToBeReturned);
         }
         else{
-            displayMessage("Invalid Bill Amount");
+            displayMessage("Given cash should be greater than the bill amount");
+            calculateDifference(0);
         }
     }
     else{
         displayMessage("Enter a Valid Bill Amount");
+        calculateDifference(0);
     }
 });
-
 function calculateDifference(amountToBeReturned){
-for(i=0; i < availablenotes.length; i++){
-const note = Math.trunc(amountToBeReturned / availablenotes[i]);
-amountToBeReturned = amountToBeReturned % availablenotes[i];
+for(let i=0; i < availablenotes.length; i++){
+var note = Math.trunc(amountToBeReturned / availablenotes[i]);
+amountToBeReturned %= availablenotes[i];
 notes[i].innerText = note;
-}
+  }
 }
 function displayMessage(msg){
     errorMessage.style.display = "block";
